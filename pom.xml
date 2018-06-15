@@ -134,17 +134,14 @@
     <profiles>
         <profile>
             <id>prod</id>
-            <properties>
-                <okky.repo.url>s3://okky-mvn-repo/prod</okky.repo.url>
-            </properties>
             <repositories>
                 <repository>
                     <id>okky-release</id>
-                    <url>${okky.repo.url}/release</url>
+                    <url>s3://okky-mvn-repo/prod/release</url>
                 </repository>
                 <repository>
                     <id>okky-snapshot</id>
-                    <url>${okky.repo.url}/snapshot</url>
+                    <url>s3://okky-mvn-repo/prod/snapshot</url>
                     <snapshots>
                         <updatePolicy>daily</updatePolicy>
                     </snapshots>
@@ -153,17 +150,14 @@
         </profile>
         <profile>
             <id>stg</id>
-            <properties>
-                <okky.repo.url>s3://okky-mvn-repo-stg</okky.repo.url>
-            </properties>
             <repositories>
                 <repository>
                     <id>okky-release</id>
-                    <url>${okky.repo.url}/release</url>
+                    <url>s3://okky-mvn-repo-stg/release</url>
                 </repository>
                 <repository>
                     <id>okky-snapshot</id>
-                    <url>${okky.repo.url}/snapshot</url>
+                    <url>s3://okky-mvn-repo-stg/snapshot</url>
                     <snapshots>
                         <updatePolicy>interval:30</updatePolicy>
                     </snapshots>
