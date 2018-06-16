@@ -7,9 +7,7 @@ import org.okky.share.domain.Aggregate;
 import org.okky.share.domain.AssertionConcern;
 import org.springframework.data.annotation.CreatedDate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PROTECTED;
@@ -18,15 +16,20 @@ import static lombok.AccessLevel.PROTECTED;
 @EqualsAndHashCode(of = "id", callSuper = false)
 @Getter
 @Entity
+@Table(uniqueConstraints = {
+        @UniqueConstraint(
+                name = "U_ARTICLE_ID_LIKER_ID",
+                columnNames = {"ARTICLE_ID", "LIKER_ID"})
+})
 public class ArticleLike implements Aggregate {
     @Id
     @Column(length = 50)
     private String id;
 
-    @Column(nullable = false, length = 50)
+    @Column(name = "ARTICLE_ID", nullable = false, length = 50)
     private String articleId;
 
-    @Column(nullable = false)
+    @Column(name = "LIKER_ID", nullable = false, length = 50)
     private String likerId;
 
     @CreatedDate
