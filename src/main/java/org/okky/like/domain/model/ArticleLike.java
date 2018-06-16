@@ -3,6 +3,7 @@ package org.okky.like.domain.model;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.okky.share.domain.Aggregate;
 import org.okky.share.domain.AssertionConcern;
 import org.springframework.data.annotation.CreatedDate;
@@ -10,10 +11,12 @@ import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.*;
 import java.util.UUID;
 
+import static lombok.AccessLevel.PRIVATE;
 import static lombok.AccessLevel.PROTECTED;
 
 @NoArgsConstructor(access = PROTECTED)
 @EqualsAndHashCode(of = "id", callSuper = false)
+@FieldDefaults(level = PRIVATE)
 @Getter
 @Entity
 @Table(uniqueConstraints = {
@@ -24,17 +27,17 @@ import static lombok.AccessLevel.PROTECTED;
 public class ArticleLike implements Aggregate {
     @Id
     @Column(length = 50)
-    private String id;
+    String id;
 
     @Column(name = "ARTICLE_ID", nullable = false, length = 50)
-    private String articleId;
+    String articleId;
 
     @Column(name = "LIKER_ID", nullable = false, length = 50)
-    private String likerId;
+    String likerId;
 
     @CreatedDate
     @Column(nullable = false, updatable = false, columnDefinition = "BIGINT UNSIGNED")
-    private long likedOn;
+    long likedOn;
 
     public ArticleLike(String articleId, String likerId) {
         setId("al-" + UUID.randomUUID().toString().replaceAll("-", "").substring(0, 15));
