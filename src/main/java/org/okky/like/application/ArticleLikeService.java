@@ -1,18 +1,22 @@
 package org.okky.like.application;
 
 import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.okky.like.domain.model.ArticleLike;
 import org.okky.like.domain.repository.ArticleLikeRepository;
 import org.okky.like.domain.service.ArticleLikeConstraint;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static lombok.AccessLevel.PRIVATE;
+
 @Service
 @Transactional
 @AllArgsConstructor
+@FieldDefaults(level = PRIVATE)
 public class ArticleLikeService {
-    private ArticleLikeRepository repository;
-    private ArticleLikeConstraint constraint;
+    ArticleLikeRepository repository;
+    ArticleLikeConstraint constraint;
 
     public void toggleLike(String articleId, String likerId) {
         ArticleLike like = repository.find(articleId, likerId).orElse(null);
