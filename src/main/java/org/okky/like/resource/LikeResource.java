@@ -38,7 +38,7 @@ class LikeResource {
             @PathVariable String likerId) {
         return articleIds
                 .stream()
-                .map(articleId -> repository.isLikedBy(articleId, likerId))
+                .map(articleId -> repository.existsByArticleIdAndLikerId(articleId, likerId))
                 .collect(toList());
     }
 

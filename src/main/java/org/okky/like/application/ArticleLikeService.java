@@ -19,7 +19,7 @@ public class ArticleLikeService {
     ArticleLikeConstraint constraint;
 
     public void toggleLike(String articleId, String likerId) {
-        ArticleLike like = repository.find(articleId, likerId).orElse(null);
+        ArticleLike like = repository.findByArticleIdAndLikerId(articleId, likerId).orElse(null);
         if (like == null)
             like(articleId, likerId);
         else
