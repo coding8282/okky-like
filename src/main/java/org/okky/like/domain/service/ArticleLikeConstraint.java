@@ -1,19 +1,22 @@
 package org.okky.like.domain.service;
 
 import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.okky.share.execption.ExternalServiceError;
+import org.okky.share.execption.ModelNotExists;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
-import org.okky.share.execption.ExternalServiceError;
-import org.okky.share.execption.ModelNotExists;
 
 import static java.lang.String.format;
+import static lombok.AccessLevel.PRIVATE;
 
 @Service
 @AllArgsConstructor
+@FieldDefaults(level = PRIVATE)
 public class ArticleLikeConstraint {
-    private RestTemplate template;
+    RestTemplate template;
 
     public void checkArticleExists(String articleId) {
         try {
