@@ -13,5 +13,9 @@ public interface EmotionRepository {
     long countByMemberIdAndType(String targetId, EmotionType type);
     void save(Emotion emotion);
     Optional<Emotion> findByTargetIdAndMemberId(String targetId, String memberId);
-    void delete(Emotion emotion);
+    void deleteByTargetIdAndMemberId(String targetId, String memberId);
+
+    default boolean wasAlreadyEmoted(String targetId, String memberId) {
+        return existsByTargetIdAndMemberId(targetId, memberId);
+    }
 }
