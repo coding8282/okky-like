@@ -32,26 +32,26 @@ public class EmotionTest extends TestMother {
     }
 
     @Test
-    public void isSameEmotionType_같은_공감표현일_경우_true() {
+    public void isDifferentEmotionType_다른_공감표현일_경우_true() {
         Emotion emotion = new Emotion("a-1", "m-3", LIKE);
-        boolean isSame = emotion.isSameEmotionType(LIKE);
+        boolean isDifferent = emotion.isDifferentEmotionType(THANKS);
 
-        assertTrue("같은 타입이므로 true여야 한다.", isSame);
+        assertTrue("같은 타입이므로 true여야 한다.", isDifferent);
     }
 
     @Test
-    public void isSameEmotionType_다른_공감표현일_경우_false() {
+    public void isDifferentEmotionType_같은_공감표현일_경우_false() {
         Emotion emotion = new Emotion("a-1", "m-3", LIKE);
-        boolean isSame = emotion.isSameEmotionType(THANKS);
+        boolean isDifferent = emotion.isDifferentEmotionType(LIKE);
 
-        assertFalse("다른 타입이므로 false여야 한다.", isSame);
+        assertFalse("다른 타입이므로 false여야 한다.", isDifferent);
     }
 
     @Test
-    public void isSameEmotionType_null일_경우_false() {
+    public void isDifferentEmotionType_null일_경우_true() {
         Emotion emotion = new Emotion("a-1", "m-3", LIKE);
-        boolean isSame = emotion.isSameEmotionType(null);
+        boolean isDifferent = emotion.isDifferentEmotionType(null);
 
-        assertFalse("다른 타입이므로 false여야 한다.", isSame);
+        assertTrue("다른 타입이므로 false여야 한다.", isDifferent);
     }
 }

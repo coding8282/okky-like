@@ -70,8 +70,12 @@ public class Emotion implements Aggregate {
         System.out.println(toPrettyJson(sample()));
     }
 
-    public boolean isSameEmotionType(EmotionType type) {
-        return this.type == type;
+    public boolean isDifferentEmotionType(EmotionType type) {
+        return this.type != type;
+    }
+
+    public void replaceEmotionType(EmotionType newType) {
+        setType(newType);
     }
 
     // -----------------------------------------------------------
