@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.okky.share.domain.Aggregate;
 import org.okky.share.domain.AssertionConcern;
+import org.okky.share.util.JsonUtil;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -53,7 +54,7 @@ public class ArticleLike implements Aggregate {
     }
 
     public static void main(String[] args) {
-        System.out.println(sample());
+        System.out.println(JsonUtil.toPrettyJson(sample()));
     }
 
     private void setId(String id) {
@@ -67,7 +68,7 @@ public class ArticleLike implements Aggregate {
     }
 
     private void setLikerId(String likerId) {
-        AssertionConcern.assertArgNotNull(likerId, "좋아요한사람은 필수입니다.");
+        AssertionConcern.assertArgNotNull(likerId, "좋아요한사람 id는 필수입니다.");
         this.likerId = likerId;
     }
 }
