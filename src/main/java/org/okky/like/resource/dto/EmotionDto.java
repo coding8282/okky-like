@@ -27,4 +27,9 @@ public class EmotionDto {
         this.sadCount = ((BigInteger) tuple[5]).intValue();
         this.angryCount = ((BigInteger) tuple[6]).intValue();
     }
+
+    public EmotionDto(Object[] tuple, String myEmotionType) {
+        this(tuple);
+        this.myEmotionType = myEmotionType;
+    }
 }
