@@ -32,7 +32,20 @@ import static org.okky.share.util.JsonUtil.toPrettyJson;
                 name = "U_TARGET_ID_MEMBER_ID",
                 columnNames = {"TARGET_ID", "MEMBER_ID"})
 })
+@NamedNativeQuery(
+        name = Emotion.GET_EMOTION_QUERY,
+        query = "select \n" +
+                "  :targetId as ID, \n" +
+                "  (select count(*) from emotion e where e.target_id=:targetId) AS TOTAL_EMOTION_COUNT, \n" +
+                "  (select count(*) from emotion e where e.target_id=:targetId and e.type='LIKE') AS LIKE_COUNT, \n" +
+                "  (select count(*) from emotion e where e.target_id=:targetId and e.type='FUN') AS FUN_COUNT, \n" +
+                "  (select count(*) from emotion e where e.target_id=:targetId and e.type='THANKS') AS THANKS_COUNT, \n" +
+                "  (select count(*) from emotion e where e.target_id=:targetId and e.type='SAD') AS SAD_COUNT, \n" +
+                "  (select count(*) from emotion e where e.target_id=:targetId and e.type='ANGRY') AS ANGRY_COUNT "
+)
 public class Emotion implements Aggregate {
+    public static final String GET_EMOTION_QUERY = "Emotion.findEmotionStatByTargetId";
+
     @Id
     @Column(length = 50)
     String id;
