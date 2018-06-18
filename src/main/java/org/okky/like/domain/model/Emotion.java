@@ -44,7 +44,7 @@ import static org.okky.share.util.JsonUtil.toPrettyJson;
                 "  (select count(*) from emotion e where e.target_id=:targetId and e.type='ANGRY') AS ANGRY_COUNT "
 )
 public class Emotion implements Aggregate {
-    public static final String GET_EMOTION_QUERY = "Emotion.findEmotionStatByTargetId";
+    public static final String GET_EMOTION_QUERY = "Emotion.queryEmotionStatByTargetId";
 
     @Id
     @Column(length = 50)
