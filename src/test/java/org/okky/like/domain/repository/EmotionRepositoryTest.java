@@ -70,7 +70,7 @@ public class EmotionRepositoryTest extends TestMother {
         repository.save(fixture("t1", "m4", FUN));
         repository.save(fixture("t1", "m5", ANGRY));
         repository.save(fixture("t2", "m1", SAD));
-        Object[] tuple = (Object[]) repository.findEmotionStatByTargetId("t1");
+        Object[] tuple = (Object[]) repository.queryEmotionStatByTargetId("t1");
 
         assertThat("targetId는 t1이다.", tuple[0], is("t1"));
         assertThat("전체 공감표현 개수는 5개이다.", tuple[1], is(valueOf(5)));
@@ -84,7 +84,7 @@ public class EmotionRepositoryTest extends TestMother {
     @Test
     public void findEmotionStatByTargetId_targetId가_없다면_빈_통계를_가져와야_함() {
         repository.save(fixture("t1", "m1", LIKE));
-        Object[] tuple = (Object[]) repository.findEmotionStatByTargetId("t9");
+        Object[] tuple = (Object[]) repository.queryEmotionStatByTargetId("t9");
 
         assertThat("targetId는 t9이다.", tuple[0], is("t9"));
         assertThat("없는 target이므로 전체 공감표현 개수는 0개이다.", tuple[1], is(valueOf(0)));
@@ -104,33 +104,6 @@ public class EmotionRepositoryTest extends TestMother {
         repository.deleteByTargetIdAndMemberId("t1", "m1");
 
         assertFalse("삭제 후에는 없어야 한다.", repository.existsByTargetIdAndMemberId("t1", "m1"));
-    }
-
-    @Test
-    public void findEmotionType_정확히_가져오는지_확인() {
-        repository.save(fixture("t1", "m1", LIKE));
-
-        String type = repository.findEmotionType("t1", "m1");
-
-        assertEquals("LIKE여야 한다.", type, "LIKE");
-    }
-
-    @Test
-    public void findEmotionType_targetId가_없는_경우_null을_반환() {
-        repository.save(fixture("t1", "m1", LIKE));
-
-        String type = repository.findEmotionType("t9", "m1");
-
-        assertNull("없는 targetId이므로 null이어야 한다.", type);
-    }
-
-    @Test
-    public void findEmotionType_memberId가_없는_경우_null을_반환() {
-        repository.save(fixture("t1", "m1", LIKE));
-
-        String type = repository.findEmotionType("t1", "m9");
-
-        assertNull("없는 memberId이므로 null이어야 한다.", type);
     }
 
     // -----------------------------
