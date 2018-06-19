@@ -11,6 +11,7 @@ import org.okky.like.TestMother;
 import org.okky.like.domain.model.Emotion;
 import org.okky.like.domain.repository.EmotionRepository;
 import org.okky.like.domain.service.EmotionConstraint;
+import org.okky.like.domain.service.EmotionHelper;
 
 import java.util.Optional;
 
@@ -22,13 +23,15 @@ import static org.okky.like.domain.model.EmotionType.LIKE;
 
 @RunWith(MockitoJUnitRunner.class)
 @FieldDefaults(level = PRIVATE)
-public class EmotionServiceTest extends TestMother {
+public class EmotionApplicationServiceTest extends TestMother {
     @InjectMocks
-    EmotionService service;
+    EmotionApplicationService service;
     @Mock
     EmotionRepository repository;
     @Mock
     EmotionConstraint constraint;
+    @Mock
+    EmotionHelper helper;
     @Mock
     Emotion emotion;
 
@@ -37,12 +40,11 @@ public class EmotionServiceTest extends TestMother {
      */
     @Test
     public void doEmotion_감정표현을_이미_했고_같은_것을_시도하는_경우_아무_것도_하지_않음() {
-        DoEmotionCommand cmd = new DoEmotionCommand("t", "m", "LIKE");
         when(emotion.isDifferentEmotionType(any())).thenReturn(false);
-        when(repository.wasAlreadyEmoted("t", "m")).thenReturn(true);
+        when(helper.wasAlreadyEmoted("t", "m")).thenReturn(true);
         when(repository.findByTargetIdAndMemberId("t", "m")).thenReturn(Optional.of(emotion));
 
-        service.doEmotion(cmd);
+        service.doEmotion("t", "m", "LIKE");
 
         InOrder o = inOrder(repository, emotion);
         o.verify(repository).findByTargetIdAndMemberId("t", "m");
@@ -57,10 +59,10 @@ public class EmotionServiceTest extends TestMother {
     public void doEmotion_감정표현을_이미_했고_다른_것을_시도하는_경우_교체() {
         DoEmotionCommand cmd = new DoEmotionCommand("t", "m", "FUN");
         when(emotion.isDifferentEmotionType(any())).thenReturn(true);
-        when(repository.wasAlreadyEmoted("t", "m")).thenReturn(true);
+        when(helper.wasAlreadyEmoted("t", "m")).thenReturn(true);
         when(repository.findByTargetIdAndMemberId("t", "m")).thenReturn(Optional.of(emotion));
 
-        service.doEmotion(cmd);
+        service.doEmotion("t", "m", "FUN");
 
         InOrder o = inOrder(repository, emotion);
         o.verify(repository).findByTargetIdAndMemberId("t", "m");
@@ -71,9 +73,9 @@ public class EmotionServiceTest extends TestMother {
     @Test
     public void doEmotion_감정표현을_아직_하지_않은_경우는_단순히_DO() {
         DoEmotionCommand cmd = new DoEmotionCommand("t", "m", "FUN");
-        when(repository.wasAlreadyEmoted("t", "m")).thenReturn(false);
+        when(helper.wasAlreadyEmoted("t", "m")).thenReturn(false);
 
-        service.doEmotion(cmd);
+        service.doEmotion("t", "m", "FUN");
 
         InOrder o = inOrder(repository, constraint);
         o.verify(constraint).rejectIfArticleNotExists("t");

@@ -6,6 +6,7 @@ import org.okky.like.domain.model.Emotion;
 import org.okky.like.domain.model.EmotionType;
 import org.okky.like.domain.repository.EmotionRepository;
 import org.okky.like.domain.service.EmotionConstraint;
+import org.okky.like.domain.service.EmotionHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,16 +16,15 @@ import static lombok.AccessLevel.PRIVATE;
 @Transactional
 @AllArgsConstructor
 @FieldDefaults(level = PRIVATE)
-public class EmotionService {
+public class EmotionApplicationService {
     EmotionRepository repository;
     EmotionConstraint constraint;
+    EmotionHelper helper;
 
-    public void doEmotion(DoEmotionCommand cmd) {
-        String targetId = cmd.targetId;
-        String memberId = cmd.memberId;
-        EmotionType type = EmotionType.parse(cmd.type);
+    public void doEmotion(String targetId, String memberId, String emotionType) {
+        EmotionType type = EmotionType.parse(emotionType);
 
-        boolean alreadyEmoted = repository.wasAlreadyEmoted(targetId, memberId);
+        boolean alreadyEmoted = helper.wasAlreadyEmoted(targetId, memberId);
         if (alreadyEmoted) {
             Emotion emotion = repository.findByTargetIdAndMemberId(targetId, memberId).get();
             if (emotion.isDifferentEmotionType(type))
