@@ -6,6 +6,7 @@ import org.okky.like.application.EmotionApplicationService;
 import org.okky.like.application.EmotionQueryService;
 import org.okky.like.resource.dto.EmotionFullStatDto;
 import org.okky.like.resource.dto.EmotionStatDto;
+import org.okky.like.resource.dto.MyEmotionStatDto;
 import org.springframework.web.bind.annotation.*;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -17,6 +18,11 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 class EmotionResource {
     EmotionApplicationService applicationService;
     EmotionQueryService queryService;
+
+    @GetMapping(value = "/members/{memberId}/emotion", produces = APPLICATION_JSON_VALUE)
+    MyEmotionStatDto getMyEmotionStat(@PathVariable String memberId) {
+        return queryService.findMyEmotionStat(memberId);
+    }
 
     @GetMapping(value = "/articles/{articleId}/emotion", produces = APPLICATION_JSON_VALUE)
     EmotionStatDto getEmotionStat(
