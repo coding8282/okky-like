@@ -8,6 +8,7 @@ import org.okky.like.domain.model.Emotion;
 import org.okky.like.domain.model.EmotionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -27,6 +28,14 @@ import static org.okky.like.domain.model.EmotionType.*;
 public class EmotionRepositoryTest extends TestMother {
     @Autowired
     EmotionRepository repository;
+
+    @Test
+    public void targetId와_memberId_유니크제약조건_확인() {
+        expect(DataIntegrityViolationException.class);
+
+        repository.saveAndFlush(fixture("t1", "m1", LIKE));
+        repository.saveAndFlush(fixture("t1", "m1", FUN));
+    }
 
     @Test
     public void existsByTargetIdAndMemberId_있는_경우_true() {
