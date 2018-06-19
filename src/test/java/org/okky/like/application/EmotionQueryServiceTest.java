@@ -28,8 +28,8 @@ public class EmotionQueryServiceTest extends TestMother {
 
     @Ignore
     @Test
-    public void findEmotionStat() {
-        service.findEmotionStat("t1");
+    public void queryEmotionStat() {
+        service.queryEmotionStat("t1");
 
         InOrder o = inOrder(repository);
         o.verify(repository).queryEmotionStat("t1");
@@ -37,8 +37,8 @@ public class EmotionQueryServiceTest extends TestMother {
 
     @Ignore
     @Test
-    public void findEmotionFullStat() {
-        service.findEmotionFullStat("t1", "m1");
+    public void queryEmotionFullStat() {
+        service.queryEmotionFullStat("t1", "m1");
 
         InOrder o = inOrder(repository);
         o.verify(repository).queryEmotionStat("t1");

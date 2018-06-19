@@ -18,17 +18,17 @@ import static lombok.AccessLevel.PRIVATE;
 public class EmotionQueryService {
     EmotionRepository repository;
 
-    public MyEmotionStatDto findMyEmotionStat(String memberId) {
+    public MyEmotionStatDto queryMyEmotionStat(String memberId) {
         Object[] tuple = (Object[]) repository.queryMyEmotionStat(memberId);
         return new MyEmotionStatDto(tuple);
     }
 
-    public EmotionStatDto findEmotionStat(String targetId) {
+    public EmotionStatDto queryEmotionStat(String targetId) {
         Object[] tuple = (Object[]) repository.queryEmotionStat(targetId);
         return new EmotionStatDto(tuple);
     }
 
-    public EmotionFullStatDto findEmotionFullStat(String targetId, String memberId) {
+    public EmotionFullStatDto queryEmotionFullStat(String targetId, String memberId) {
         Object[] tuple = (Object[]) repository.queryEmotionStat(targetId);
         String myEmotionType = repository.findEmotionType(targetId, memberId);
         return new EmotionFullStatDto(tuple, myEmotionType);

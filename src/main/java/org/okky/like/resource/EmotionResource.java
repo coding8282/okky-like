@@ -21,20 +21,20 @@ class EmotionResource {
 
     @GetMapping(value = "/members/{memberId}/emotion", produces = APPLICATION_JSON_VALUE)
     MyEmotionStatDto getMyEmotionStat(@PathVariable String memberId) {
-        return queryService.findMyEmotionStat(memberId);
+        return queryService.queryMyEmotionStat(memberId);
     }
 
     @GetMapping(value = "/articles/{articleId}/emotion", produces = APPLICATION_JSON_VALUE)
     EmotionStatDto getEmotionStat(
             @PathVariable String articleId) {
-        return queryService.findEmotionStat(articleId);
+        return queryService.queryEmotionStat(articleId);
     }
 
     @GetMapping(value = "/articles/{articleId}/members/{memberId}/emotion", produces = APPLICATION_JSON_VALUE)
     EmotionFullStatDto getEmotionFullStat(
             @PathVariable String articleId,
             @PathVariable String memberId) {
-        return queryService.findEmotionFullStat(articleId, memberId);
+        return queryService.queryEmotionFullStat(articleId, memberId);
     }
 
     @PutMapping(value = "/articles/{articleId}/members/{memberId}/emotions", produces = APPLICATION_JSON_VALUE)
@@ -43,7 +43,7 @@ class EmotionResource {
             @PathVariable String memberId,
             @RequestParam String emotion) {
         applicationService.doEmotion(articleId, memberId, emotion);
-        return queryService.findEmotionFullStat(articleId, memberId);
+        return queryService.queryEmotionFullStat(articleId, memberId);
     }
 
     @DeleteMapping(value = "/articles/{articleId}/members/{memberId}/emotions", produces = APPLICATION_JSON_VALUE)
@@ -51,6 +51,6 @@ class EmotionResource {
             @PathVariable String articleId,
             @PathVariable String memberId) {
         applicationService.undoEmotion(articleId, memberId);
-        return queryService.findEmotionFullStat(articleId, memberId);
+        return queryService.queryEmotionFullStat(articleId, memberId);
     }
 }
