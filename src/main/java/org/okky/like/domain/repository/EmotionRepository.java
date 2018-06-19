@@ -20,7 +20,7 @@ public interface EmotionRepository {
     boolean existsByTargetIdAndMemberId(String targetId, String memberId);
 
     @Query(name = GET_EMOTION_STAT, nativeQuery = true)
-    Object queryEmotionStatByTargetId(@Param("targetId") String targetId);
+    Object queryEmotionStat(@Param("targetId") String targetId);
     @Query(name = GET_MY_EMOTION_STAT, nativeQuery = true)
     Object queryMyEmotionStat(@Param("memberId") String memberId);
 }

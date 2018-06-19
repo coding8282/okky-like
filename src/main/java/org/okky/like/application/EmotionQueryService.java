@@ -24,12 +24,12 @@ public class EmotionQueryService {
     }
 
     public EmotionStatDto findEmotionStat(String targetId) {
-        Object[] tuple = (Object[]) repository.queryEmotionStatByTargetId(targetId);
+        Object[] tuple = (Object[]) repository.queryEmotionStat(targetId);
         return new EmotionStatDto(tuple);
     }
 
     public EmotionFullStatDto findEmotionFullStat(String targetId, String memberId) {
-        Object[] tuple = (Object[]) repository.queryEmotionStatByTargetId(targetId);
+        Object[] tuple = (Object[]) repository.queryEmotionStat(targetId);
         String myEmotionType = repository.findEmotionType(targetId, memberId);
         return new EmotionFullStatDto(tuple, myEmotionType);
     }

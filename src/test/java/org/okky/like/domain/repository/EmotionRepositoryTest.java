@@ -98,14 +98,14 @@ public class EmotionRepositoryTest extends TestMother {
     }
 
     @Test
-    public void queryEmotionStatByTargetId_targetId로_정확히_찾아오는_것을_확인() {
+    public void queryEmotionStat_targetId로_정확히_찾아오는_것을_확인() {
         repository.save(fixture("t1", "m1", LIKE));
         repository.save(fixture("t1", "m2", LIKE));
         repository.save(fixture("t1", "m3", LIKE));
         repository.save(fixture("t1", "m4", FUN));
         repository.save(fixture("t1", "m5", ANGRY));
         repository.save(fixture("t2", "m1", SAD));
-        Object[] tuple = (Object[]) repository.queryEmotionStatByTargetId("t1");
+        Object[] tuple = (Object[]) repository.queryEmotionStat("t1");
 
         assertThat("targetId는 t1이다.", tuple[0], is("t1"));
         assertThat("전체 공감표현 개수는 5개이다.", tuple[1], is(valueOf(5)));
@@ -117,9 +117,9 @@ public class EmotionRepositoryTest extends TestMother {
     }
 
     @Test
-    public void queryEmotionStatByTargetId_targetId가_없다면_빈_통계를_가져와야_함() {
+    public void queryEmotionStat_targetId가_없다면_빈_통계를_가져와야_함() {
         repository.save(fixture("t1", "m1", LIKE));
-        Object[] tuple = (Object[]) repository.queryEmotionStatByTargetId("t9");
+        Object[] tuple = (Object[]) repository.queryEmotionStat("t9");
 
         assertThat("targetId는 t9이다.", tuple[0], is("t9"));
         assertThat("없는 target이므로 전체 공감표현 개수는 0개이다.", tuple[1], is(valueOf(0)));

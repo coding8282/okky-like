@@ -32,7 +32,7 @@ public class EmotionQueryServiceTest extends TestMother {
         service.findEmotionStat("t1");
 
         InOrder o = inOrder(repository);
-        o.verify(repository).queryEmotionStatByTargetId("t1");
+        o.verify(repository).queryEmotionStat("t1");
     }
 
     @Ignore
@@ -41,7 +41,7 @@ public class EmotionQueryServiceTest extends TestMother {
         service.findEmotionFullStat("t1", "m1");
 
         InOrder o = inOrder(repository);
-        o.verify(repository).queryEmotionStatByTargetId("t1");
+        o.verify(repository).queryEmotionStat("t1");
         o.verify(repository).findEmotionType("t1", "m1");
     }
 }
