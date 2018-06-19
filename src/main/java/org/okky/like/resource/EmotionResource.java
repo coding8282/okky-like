@@ -38,7 +38,7 @@ class EmotionResource {
     }
 
     @PutMapping(value = "/articles/{articleId}/members/{memberId}/emotions/{emotion}", produces = APPLICATION_JSON_VALUE)
-    EmotionStatDto doEmotion(
+    EmotionFullStatDto doEmotion(
             @PathVariable String articleId,
             @PathVariable String memberId,
             @PathVariable String emotion) {
