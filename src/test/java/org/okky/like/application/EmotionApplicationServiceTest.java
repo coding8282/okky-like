@@ -36,11 +36,11 @@ public class EmotionApplicationServiceTest extends TestMother {
     Emotion emotion;
 
     /**
-     * 예를 들어 'LIKE'한 상태에서 'LIKE'로 요청이 들어오면 아무 것도 하지 않는다.
+     * 예를 들어 'LIKE'한 상태에서 'LIKE'로 요청이 들어오면 공감표현을 제거한다.
      */
     @Test
-    public void doEmotion_감정표현을_이미_했고_같은_것을_시도하는_경우_아무_것도_하지_않음() {
-        when(emotion.isDifferentEmotionType(any())).thenReturn(false);
+    public void doEmotion_감정표현을_이미_했고_같은_것을_시도하는_경우_공감표현을_제거() {
+        when(emotion.isSameEmotionType(any())).thenReturn(true);
         when(helper.wasAlreadyEmoted("t", "m")).thenReturn(true);
         when(repository.findByTargetIdAndMemberId("t", "m")).thenReturn(Optional.of(emotion));
 
@@ -48,16 +48,16 @@ public class EmotionApplicationServiceTest extends TestMother {
 
         InOrder o = inOrder(repository, emotion);
         o.verify(repository).findByTargetIdAndMemberId("t", "m");
-        o.verify(emotion).isDifferentEmotionType(LIKE);
+        o.verify(emotion).isSameEmotionType(LIKE);
+        o.verify(repository).delete(emotion);
         o.verify(emotion, never()).replaceEmotionType(any());
     }
 
     /**
-     * 예를 들어 'LIKE'한 상태에서 'FUN'로 요청이 들어오면 감정 표현을 바꾼다.
+     * 예를 들어 'LIKE'한 상태에서 'FUN'로 요청이 들어오면 공감표현을 바꾼다.
      */
     @Test
     public void doEmotion_감정표현을_이미_했고_다른_것을_시도하는_경우_교체() {
-        when(emotion.isDifferentEmotionType(any())).thenReturn(true);
         when(helper.wasAlreadyEmoted("t", "m")).thenReturn(true);
         when(repository.findByTargetIdAndMemberId("t", "m")).thenReturn(Optional.of(emotion));
 
@@ -65,8 +65,9 @@ public class EmotionApplicationServiceTest extends TestMother {
 
         InOrder o = inOrder(repository, emotion);
         o.verify(repository).findByTargetIdAndMemberId("t", "m");
-        o.verify(emotion).isDifferentEmotionType(FUN);
+        o.verify(emotion).isSameEmotionType(FUN);
         o.verify(emotion).replaceEmotionType(FUN);
+        o.verify(repository, never()).delete(emotion);
     }
 
     @Test

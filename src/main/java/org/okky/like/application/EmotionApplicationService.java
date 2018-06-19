@@ -27,7 +27,9 @@ public class EmotionApplicationService {
         boolean alreadyEmoted = helper.wasAlreadyEmoted(targetId, memberId);
         if (alreadyEmoted) {
             Emotion emotion = repository.findByTargetIdAndMemberId(targetId, memberId).get();
-            if (emotion.isDifferentEmotionType(type))
+            if (emotion.isSameEmotionType(type))
+                repository.delete(emotion);
+            else
                 emotion.replaceEmotionType(type);
         } else {
             doEmotion(targetId, memberId, type);
