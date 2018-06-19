@@ -10,11 +10,11 @@ import static java.lang.String.join;
 import static org.okky.share.domain.AssertionConcern.assertArgNotEmpty;
 
 public enum EmotionType {
-    LIKE,//좋아요 ^^!
-    FUN,//재밌어요 :) !
-    THANKS,//고마워요 >_<!
-    SAD,//슬퍼요 ㅜㅜ!
-    ANGRY,//화나요 !
+    LIKE,// 좋아요 ^^!
+    FUN,// 재밌어요 :) !
+    THANKS,// 고마워요 >_<!
+    SAD,// 슬퍼요 ㅜㅜ!
+    ANGRY,// 화나요 \./
     ;
 
     public static EmotionType parse(String value) {
