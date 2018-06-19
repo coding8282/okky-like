@@ -57,7 +57,6 @@ public class EmotionApplicationServiceTest extends TestMother {
      */
     @Test
     public void doEmotion_감정표현을_이미_했고_다른_것을_시도하는_경우_교체() {
-        DoEmotionCommand cmd = new DoEmotionCommand("t", "m", "FUN");
         when(emotion.isDifferentEmotionType(any())).thenReturn(true);
         when(helper.wasAlreadyEmoted("t", "m")).thenReturn(true);
         when(repository.findByTargetIdAndMemberId("t", "m")).thenReturn(Optional.of(emotion));
@@ -72,7 +71,6 @@ public class EmotionApplicationServiceTest extends TestMother {
 
     @Test
     public void doEmotion_감정표현을_아직_하지_않은_경우는_단순히_DO() {
-        DoEmotionCommand cmd = new DoEmotionCommand("t", "m", "FUN");
         when(helper.wasAlreadyEmoted("t", "m")).thenReturn(false);
 
         service.doEmotion("t", "m", "FUN");
@@ -84,9 +82,7 @@ public class EmotionApplicationServiceTest extends TestMother {
 
     @Test
     public void undoEmotion() {
-        UndoEmotionCommand cmd = new UndoEmotionCommand("t", "m");
-
-        service.undoEmotion(cmd);
+        service.undoEmotion("t", "m");
 
         InOrder o = inOrder(repository);
         o.verify(repository).deleteByTargetIdAndMemberId("t", "m");

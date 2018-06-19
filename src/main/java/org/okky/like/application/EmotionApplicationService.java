@@ -34,8 +34,8 @@ public class EmotionApplicationService {
         }
     }
 
-    public void undoEmotion(UndoEmotionCommand cmd) {
-        repository.deleteByTargetIdAndMemberId(cmd.targetId, cmd.memberId);
+    public void undoEmotion(String targetId, String memberId) {
+        repository.deleteByTargetIdAndMemberId(targetId, memberId);
     }
 
     // ------------------------------------------
