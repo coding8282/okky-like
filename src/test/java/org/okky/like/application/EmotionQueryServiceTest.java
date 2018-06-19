@@ -28,15 +28,6 @@ public class EmotionQueryServiceTest extends TestMother {
 
     @Ignore
     @Test
-    public void queryEmotionStat() {
-        service.queryEmotionStat("t1");
-
-        InOrder o = inOrder(repository);
-        o.verify(repository).queryEmotionStat("t1");
-    }
-
-    @Ignore
-    @Test
     public void queryEmotionFullStat() {
         service.queryEmotionFullStat("t1", "m1");
 

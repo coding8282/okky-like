@@ -3,9 +3,8 @@ package org.okky.like.application;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.okky.like.domain.repository.EmotionRepository;
-import org.okky.like.resource.dto.EmotionFullStatDto;
-import org.okky.like.resource.dto.EmotionStatDto;
-import org.okky.like.resource.dto.MyEmotionStatDto;
+import org.okky.like.resource.dto.EmotionStatSummaryDto;
+import org.okky.like.resource.dto.MyEmotionStatSummaryDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,19 +17,14 @@ import static lombok.AccessLevel.PRIVATE;
 public class EmotionQueryService {
     EmotionRepository repository;
 
-    public MyEmotionStatDto queryMyEmotionStat(String memberId) {
+    public MyEmotionStatSummaryDto queryMyEmotionStat(String memberId) {
         Object[] tuple = (Object[]) repository.queryMyEmotionStat(memberId);
-        return new MyEmotionStatDto(tuple);
+        return new MyEmotionStatSummaryDto(tuple);
     }
 
-    public EmotionStatDto queryEmotionStat(String targetId) {
-        Object[] tuple = (Object[]) repository.queryEmotionStat(targetId);
-        return new EmotionStatDto(tuple);
-    }
-
-    public EmotionFullStatDto queryEmotionFullStat(String targetId, String memberId) {
+    public EmotionStatSummaryDto queryEmotionFullStat(String targetId, String memberId) {
         Object[] tuple = (Object[]) repository.queryEmotionStat(targetId);
         String myEmotionType = repository.findEmotionType(targetId, memberId);
-        return new EmotionFullStatDto(tuple, myEmotionType);
+        return new EmotionStatSummaryDto(tuple, myEmotionType);
     }
 }
