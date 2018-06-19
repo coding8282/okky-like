@@ -37,11 +37,11 @@ class EmotionResource {
         return queryService.queryEmotionFullStat(articleId, memberId);
     }
 
-    @PutMapping(value = "/articles/{articleId}/members/{memberId}/emotions", produces = APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/articles/{articleId}/members/{memberId}/emotions/{emotion}", produces = APPLICATION_JSON_VALUE)
     EmotionStatDto doEmotion(
             @PathVariable String articleId,
             @PathVariable String memberId,
-            @RequestParam String emotion) {
+            @PathVariable String emotion) {
         applicationService.doEmotion(articleId, memberId, emotion);
         return queryService.queryEmotionFullStat(articleId, memberId);
     }
