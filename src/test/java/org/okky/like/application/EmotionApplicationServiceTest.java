@@ -75,9 +75,12 @@ public class EmotionApplicationServiceTest extends TestMother {
 
         service.doEmotion("t", "m", "FUN");
 
-        InOrder o = inOrder(repository, constraint);
+        InOrder o = inOrder(repository, constraint, emotion);
         o.verify(constraint).rejectIfArticleNotExists("t");
         o.verify(repository).save(any(Emotion.class));
+        o.verify(repository, never()).findByTargetIdAndMemberId(anyString(), anyString());
+        o.verify(emotion, never()).isDifferentEmotionType(FUN);
+        o.verify(emotion, never()).replaceEmotionType(FUN);
     }
 
     @Test
