@@ -32,19 +32,34 @@ import static org.okky.share.util.JsonUtil.toPrettyJson;
                 name = "U_TARGET_ID_MEMBER_ID",
                 columnNames = {"TARGET_ID", "MEMBER_ID"})
 })
-@NamedNativeQuery(
-        name = Emotion.GET_EMOTION_QUERY,
-        query = "select \n" +
-                "  :targetId as ID, \n" +
-                "  (select count(*) from emotion e where e.target_id=:targetId) AS TOTAL_EMOTION_COUNT, \n" +
-                "  (select count(*) from emotion e where e.target_id=:targetId and e.type='LIKE') AS LIKE_COUNT, \n" +
-                "  (select count(*) from emotion e where e.target_id=:targetId and e.type='FUN') AS FUN_COUNT, \n" +
-                "  (select count(*) from emotion e where e.target_id=:targetId and e.type='THANKS') AS THANKS_COUNT, \n" +
-                "  (select count(*) from emotion e where e.target_id=:targetId and e.type='SAD') AS SAD_COUNT, \n" +
-                "  (select count(*) from emotion e where e.target_id=:targetId and e.type='ANGRY') AS ANGRY_COUNT "
-)
+@NamedNativeQueries({
+        @NamedNativeQuery(
+                name = Emotion.GET_EMOTION_QUERY,
+                query = "select \n" +
+                        "  :targetId as ID, \n" +
+                        "  (select count(*) from emotion e where e.target_id=:targetId) AS TOTAL_EMOTION_COUNT, \n" +
+                        "  (select count(*) from emotion e where e.target_id=:targetId and e.type='LIKE') AS LIKE_COUNT, \n" +
+                        "  (select count(*) from emotion e where e.target_id=:targetId and e.type='FUN') AS FUN_COUNT, \n" +
+                        "  (select count(*) from emotion e where e.target_id=:targetId and e.type='THANKS') AS THANKS_COUNT, \n" +
+                        "  (select count(*) from emotion e where e.target_id=:targetId and e.type='SAD') AS SAD_COUNT, \n" +
+                        "  (select count(*) from emotion e where e.target_id=:targetId and e.type='ANGRY') AS ANGRY_COUNT "
+        ),
+        @NamedNativeQuery(
+                name = Emotion.GET_EMOTION_QUERY_BY_MEMBER,
+                query = "select \n" +
+                        "  :memberId as ID, \n" +
+                        "  (select count(*) from emotion e where e.member_id=:memberId) AS TOTAL_EMOTION_COUNT, \n" +
+                        "  (select count(*) from emotion e where e.member_id=:memberId and e.type='LIKE') AS LIKE_COUNT, \n" +
+                        "  (select count(*) from emotion e where e.member_id=:memberId and e.type='FUN') AS FUN_COUNT, \n" +
+                        "  (select count(*) from emotion e where e.member_id=:memberId and e.type='THANKS') AS THANKS_COUNT, \n" +
+                        "  (select count(*) from emotion e where e.member_id=:memberId and e.type='SAD') AS SAD_COUNT, \n" +
+                        "  (select count(*) from emotion e where e.member_id=:memberId and e.type='ANGRY') AS ANGRY_COUNT "
+        )
+
+})
 public class Emotion implements Aggregate {
     public static final String GET_EMOTION_QUERY = "Emotion.queryEmotionStatByTargetId";
+    public static final String GET_EMOTION_QUERY_BY_MEMBER = "Emotion.queryMyEmotionStat";
 
     @Id
     @Column(length = 50)

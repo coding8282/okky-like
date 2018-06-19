@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 import static org.okky.like.domain.model.Emotion.GET_EMOTION_QUERY;
+import static org.okky.like.domain.model.Emotion.GET_EMOTION_QUERY_BY_MEMBER;
 
 @RepositoryDefinition(domainClass = Emotion.class, idClass = String.class)
 public interface EmotionRepository {
@@ -17,6 +18,9 @@ public interface EmotionRepository {
     String findEmotionType(@Param("targetId") String targetId, @Param("memberId") String memberId);
     void deleteByTargetIdAndMemberId(String targetId, String memberId);
     boolean existsByTargetIdAndMemberId(String targetId, String memberId);
-    @Query(nativeQuery = true, name = GET_EMOTION_QUERY)
+
+    @Query(name = GET_EMOTION_QUERY, nativeQuery = true)
     Object queryEmotionStatByTargetId(@Param("targetId") String targetId);
+    @Query(name = GET_EMOTION_QUERY_BY_MEMBER, nativeQuery = true)
+    Object queryMyEmotionStat(@Param("memberId") String memberId);
 }

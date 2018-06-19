@@ -130,6 +130,38 @@ public class EmotionRepositoryTest extends TestMother {
         assertThat("없는 target이므로 화나 개수는 0개이다.", tuple[6], is(valueOf(0)));
     }
 
+    @Test
+    public void queryMyEmotionStat_memberId로_정확히_찾아오는_것을_확인() {
+        repository.save(fixture("t1", "m1", LIKE));
+        repository.save(fixture("t1", "m2", LIKE));
+        repository.save(fixture("t2", "m1", LIKE));
+        repository.save(fixture("t3", "m1", FUN));
+        repository.save(fixture("t4", "m1", ANGRY));
+        repository.save(fixture("t2", "m9", SAD));
+        Object[] tuple = (Object[]) repository.queryMyEmotionStat("m1");
+
+        assertThat("memberId는 m1이다.", tuple[0], is("m1"));
+        assertThat("나의 전체 공감표현 개수는 6개이다.", tuple[1], is(valueOf(4)));
+        assertThat("나의 좋아요 개수는 3개이다.", tuple[2], is(valueOf(2)));
+        assertThat("나의 재밌어요 개수는 1개이다.", tuple[3], is(valueOf(1)));
+        assertThat("나의 고마워 개수는 0개이다.", tuple[4], is(valueOf(0)));
+        assertThat("나의 슬퍼 개수는 0개이다.", tuple[5], is(valueOf(0)));
+        assertThat("나의 화나 개수는 1개이다.", tuple[6], is(valueOf(1)));
+    }
+
+    @Test
+    public void queryMyEmotionStat_회원이_아무_공감표현도_하지_않았다면_빈_통계를_가져와야_함() {
+        Object[] tuple = (Object[]) repository.queryMyEmotionStat("m1");
+
+        assertThat("memberId는 m1이다.", tuple[0], is("m1"));
+        assertThat("나의 전체 공감표현 개수는 0개이다.", tuple[1], is(valueOf(0)));
+        assertThat("나의 좋아요 개수는 0개이다.", tuple[2], is(valueOf(0)));
+        assertThat("나의 재밌어요 개수는 0개이다.", tuple[3], is(valueOf(0)));
+        assertThat("나의 고마워 개수는 0개이다.", tuple[4], is(valueOf(0)));
+        assertThat("나의 슬퍼 개수는 0개이다.", tuple[5], is(valueOf(0)));
+        assertThat("나의 화나 개수는 0개이다.", tuple[6], is(valueOf(0)));
+    }
+
 
     // -----------------------------
     private Emotion fixture(String targetId, String memberId, EmotionType type) {
