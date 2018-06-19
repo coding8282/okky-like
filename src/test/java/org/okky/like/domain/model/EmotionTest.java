@@ -7,8 +7,7 @@ import org.okky.share.execption.BadArgument;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.*;
-import static org.okky.like.domain.model.EmotionType.LIKE;
-import static org.okky.like.domain.model.EmotionType.THANKS;
+import static org.okky.like.domain.model.EmotionType.*;
 
 public class EmotionTest extends TestMother {
     @Test
@@ -40,6 +39,30 @@ public class EmotionTest extends TestMother {
     }
 
     @Test
+    public void isSameEmotionType_같은_공감표현일_경우_true() {
+        Emotion emotion = new Emotion("a-1", "m-3", LIKE);
+        boolean isSame = emotion.isSameEmotionType(LIKE);
+
+        assertTrue("같은 타입이므로 true여야 한다.", isSame);
+    }
+
+    @Test
+    public void isSameEmotionType_다른_공감표현일_경우_false() {
+        Emotion emotion = new Emotion("a-1", "m-3", ANGRY);
+        boolean isSame = emotion.isSameEmotionType(FUN);
+
+        assertFalse("다른 타입이므로 false여야 한다.", isSame);
+    }
+
+    @Test
+    public void isSameEmotionType_null일_경우_항상_false() {
+        Emotion emotion = new Emotion("a-1", "m-3", ANGRY);
+        boolean isSame = emotion.isSameEmotionType(null);
+
+        assertFalse("null은 비교할 때 항상 false여야 한다.", isSame);
+    }
+
+    @Test
     public void isDifferentEmotionType_다른_공감표현일_경우_true() {
         Emotion emotion = new Emotion("a-1", "m-3", LIKE);
         boolean isDifferent = emotion.isDifferentEmotionType(THANKS);
@@ -56,10 +79,10 @@ public class EmotionTest extends TestMother {
     }
 
     @Test
-    public void isDifferentEmotionType_null일_경우_true() {
+    public void isDifferentEmotionType_null일_경우_항상_true() {
         Emotion emotion = new Emotion("a-1", "m-3", LIKE);
         boolean isDifferent = emotion.isDifferentEmotionType(null);
 
-        assertTrue("다른 타입이므로 false여야 한다.", isDifferent);
+        assertTrue("null은 비교할 때 항상 true여야 한다.", isDifferent);
     }
 }

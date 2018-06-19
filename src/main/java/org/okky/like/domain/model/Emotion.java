@@ -102,6 +102,10 @@ public class Emotion implements Aggregate {
         setType(newType);
     }
 
+    public boolean isSameEmotionType(EmotionType type) {
+        return this.type == type;
+    }
+
     public boolean isDifferentEmotionType(EmotionType type) {
         return this.type != type;
     }
