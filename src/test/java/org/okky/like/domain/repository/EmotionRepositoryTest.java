@@ -106,6 +106,30 @@ public class EmotionRepositoryTest extends TestMother {
         assertFalse("삭제 후에는 없어야 한다.", repository.existsByTargetIdAndMemberId("t1", "m1"));
     }
 
+    @Test
+    public void findEmotionType_정확히_찾는지_확인() {
+        repository.save(fixture("t1", "m1", ANGRY));
+        String emotionType = repository.findEmotionType("t1", "m1");
+
+        assertThat("ANGRY를 정확히 가져와야 한다.", emotionType, is("ANGRY"));
+    }
+
+    @Test
+    public void findEmotionType_targetId가_다르면_null_반환() {
+        repository.save(fixture("t1", "m1", ANGRY));
+        String emotionType = repository.findEmotionType("t5", "m1");
+
+        assertNull("해당하지 않는 targetId이므로 null이어야 한다.", emotionType);
+    }
+
+    @Test
+    public void findEmotionType_memberId가_다르면_null_반환() {
+        repository.save(fixture("t1", "m1", ANGRY));
+        String emotionType = repository.findEmotionType("t1", "m5");
+
+        assertNull("해당하지 않는 memberId이므로 null이어야 한다.", emotionType);
+    }
+
     // -----------------------------
     private Emotion fixture(String targetId, String memberId, EmotionType type) {
         return new Emotion(targetId, memberId, type);

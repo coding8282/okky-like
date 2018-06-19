@@ -13,6 +13,8 @@ import static org.okky.like.domain.model.Emotion.GET_EMOTION_QUERY;
 public interface EmotionRepository {
     void save(Emotion emotion);
     Optional<Emotion> findByTargetIdAndMemberId(String targetId, String memberId);
+    @Query("select e.type from Emotion e where e.targetId=:targetId and e.memberId=:memberId")
+    String findEmotionType(@Param("targetId") String targetId, @Param("memberId") String memberId);
     void deleteByTargetIdAndMemberId(String targetId, String memberId);
     boolean existsByTargetIdAndMemberId(String targetId, String memberId);
     @Query(nativeQuery = true, name = GET_EMOTION_QUERY)
