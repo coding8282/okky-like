@@ -5,10 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.okky.share.domain.Aggregate;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 
+import static java.lang.System.currentTimeMillis;
 import static javax.persistence.EnumType.STRING;
 import static lombok.AccessLevel.PRIVATE;
 import static lombok.AccessLevel.PROTECTED;
@@ -71,7 +71,6 @@ public class Emotion implements Aggregate {
     @Column(name = "MEMBER_ID", nullable = false, length = 50)
     String memberId;
 
-    @CreatedDate
     @Column(nullable = false, updatable = false, columnDefinition = "BIGINT UNSIGNED")
     long emotedOn;
 
@@ -83,6 +82,7 @@ public class Emotion implements Aggregate {
         setId(IdGenerator.newEmotionId());
         setTargetId(targetId);
         setMemberId(memberId);
+        setEmotedOn(currentTimeMillis());
         setType(type);
     }
 
@@ -120,6 +120,10 @@ public class Emotion implements Aggregate {
     private void setMemberId(String memberId) {
         assertArgNotEmpty(memberId, "회원 id는 필수입니다.");
         this.memberId = memberId;
+    }
+
+    private void setEmotedOn(long emotedOn) {
+        this.emotedOn = emotedOn;
     }
 
     private void setType(EmotionType type) {

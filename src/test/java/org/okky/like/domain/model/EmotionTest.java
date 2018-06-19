@@ -4,8 +4,9 @@ import org.junit.Test;
 import org.okky.like.TestMother;
 import org.okky.share.execption.BadArgument;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.*;
 import static org.okky.like.domain.model.EmotionType.LIKE;
 import static org.okky.like.domain.model.EmotionType.THANKS;
 
@@ -29,6 +30,13 @@ public class EmotionTest extends TestMother {
         expect(BadArgument.class, "공감표현은 필수입니다.");
 
         new Emotion("a-1", "m-1", null);
+    }
+
+    @Test
+    public void 공감표현_날짜가_정확히_셋팅되는지_확인() {
+        Emotion emotion = new Emotion("a-1", "m-1", LIKE);
+
+        assertThat("공감표현 날짜는 정확히 셋팅되어 있어야 한다.", emotion.getEmotedOn(), not(equalTo(0L)));
     }
 
     @Test
