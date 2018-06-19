@@ -12,13 +12,14 @@ import static org.okky.like.domain.model.Emotion.GET_MY_EMOTION_STAT;
 
 @RepositoryDefinition(domainClass = Emotion.class, idClass = String.class)
 public interface EmotionRepository {
+    boolean existsByTargetIdAndMemberId(String targetId, String memberId);
     void save(Emotion emotion);
     void saveAndFlush(Emotion emotion);
     Optional<Emotion> findByTargetIdAndMemberId(String targetId, String memberId);
     @Query("select e.type from Emotion e where e.targetId=:targetId and e.memberId=:memberId")
     String findEmotionType(@Param("targetId") String targetId, @Param("memberId") String memberId);
+    void delete(Emotion emotion);
     void deleteByTargetIdAndMemberId(String targetId, String memberId);
-    boolean existsByTargetIdAndMemberId(String targetId, String memberId);
 
     @Query(name = GET_EMOTION_STAT, nativeQuery = true)
     Object queryEmotionStat(@Param("targetId") String targetId);

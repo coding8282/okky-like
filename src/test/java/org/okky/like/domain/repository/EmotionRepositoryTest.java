@@ -72,6 +72,18 @@ public class EmotionRepositoryTest extends TestMother {
     }
 
     @Test
+    public void delete_삭제_확인() {
+        Emotion emotion = fixture("t1", "m1", LIKE);
+        repository.save(emotion);
+
+        assertTrue("저장 후 존재해야 한다.", repository.existsByTargetIdAndMemberId("t1", "m1"));
+
+        repository.delete(emotion);
+
+        assertFalse("삭제 후에는 없어야 한다.", repository.existsByTargetIdAndMemberId("t1", "m1"));
+    }
+
+    @Test
     public void deleteByTargetIdAndMemberId_삭제_확인() {
         repository.save(fixture("t1", "m1", LIKE));
 
