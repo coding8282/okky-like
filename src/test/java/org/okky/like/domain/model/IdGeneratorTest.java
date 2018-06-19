@@ -16,9 +16,9 @@ public class IdGeneratorTest extends TestMother {
     }
 
     @Test
-    public void newEmotionId_25자_확인() {
+    public void newEmotionId_길이_확인() {
         String newId = IdGenerator.newEmotionId();
 
-        assertThat("아이디는 25자여야 한다.", newId.length(), is(25));
+        assertThat("아이디는 28자여야 한다.", newId.length(), is(28));
     }
 }
