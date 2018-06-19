@@ -34,7 +34,7 @@ import static org.okky.share.util.JsonUtil.toPrettyJson;
 })
 @NamedNativeQueries({
         @NamedNativeQuery(
-                name = Emotion.GET_EMOTION_QUERY,
+                name = Emotion.GET_EMOTION_STAT,
                 query = "select \n" +
                         "  :targetId as ID, \n" +
                         "  (select count(*) from emotion e where e.target_id=:targetId) AS TOTAL_EMOTION_COUNT, \n" +
@@ -45,7 +45,7 @@ import static org.okky.share.util.JsonUtil.toPrettyJson;
                         "  (select count(*) from emotion e where e.target_id=:targetId and e.type='ANGRY') AS ANGRY_COUNT "
         ),
         @NamedNativeQuery(
-                name = Emotion.GET_EMOTION_QUERY_BY_MEMBER,
+                name = Emotion.GET_MY_EMOTION_STAT,
                 query = "select \n" +
                         "  :memberId as ID, \n" +
                         "  (select count(*) from emotion e where e.member_id=:memberId) AS TOTAL_EMOTION_COUNT, \n" +
@@ -58,8 +58,8 @@ import static org.okky.share.util.JsonUtil.toPrettyJson;
 
 })
 public class Emotion implements Aggregate {
-    public static final String GET_EMOTION_QUERY = "Emotion.queryEmotionStatByTargetId";
-    public static final String GET_EMOTION_QUERY_BY_MEMBER = "Emotion.queryMyEmotionStat";
+    public static final String GET_EMOTION_STAT = "Emotion.queryEmotionStat";
+    public static final String GET_MY_EMOTION_STAT = "Emotion.queryMyEmotionStat";
 
     @Id
     @Column(length = 50)
