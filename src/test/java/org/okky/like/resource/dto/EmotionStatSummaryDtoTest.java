@@ -7,7 +7,7 @@ import java.math.BigInteger;
 
 import static org.junit.Assert.assertEquals;
 
-public class EmotionFullStatDtoTest extends TestMother {
+public class EmotionStatSummaryDtoTest extends TestMother {
     @Test
     public void new_튜플을_제대로_읽어오고_myEmotionType도_확인() {
         Object[] tuple = new Object[8];
@@ -18,7 +18,7 @@ public class EmotionFullStatDtoTest extends TestMother {
         tuple[4] = BigInteger.valueOf(0);//고마워요 개수
         tuple[5] = BigInteger.valueOf(0);//슬퍼요 개수
         tuple[6] = BigInteger.valueOf(1);//화나요 개수
-        EmotionFullStatDto dto = new EmotionFullStatDto(tuple, "LIKE");
+        EmotionStatSummaryDto dto = new EmotionStatSummaryDto(tuple, "LIKE");
 
         assertEquals("targetId는 t1이다.", dto.getId(), "t1");
         assertEquals("전체 공감표현 개수는 101개이다.", dto.getTotalEmotionCount(), 101);

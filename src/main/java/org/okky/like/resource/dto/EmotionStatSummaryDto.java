@@ -1,13 +1,16 @@
 package org.okky.like.resource.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.experimental.FieldDefaults;
 
 import java.math.BigInteger;
 
-@AllArgsConstructor
+import static lombok.AccessLevel.PRIVATE;
+
+@FieldDefaults(level = PRIVATE)
 @Getter
-public class EmotionStatDto {
+public class EmotionStatSummaryDto {
+    String myEmotionType;
     String id;
     int totalEmotionCount;
     int likeCount;
@@ -16,7 +19,7 @@ public class EmotionStatDto {
     int sadCount;
     int angryCount;
 
-    public EmotionStatDto(Object[] tuple) {
+    public EmotionStatSummaryDto(Object[] tuple, String myEmotionType) {
         // TODO: 2018. 6. 18. @SqlResultSetMapping이 원하는 대로 작동하지 않아 부득이하게 저수준으로 작업함. 자세한 사항은 58ab0f7bfb775d2e2dd960d4058fb9c1045c79b9 참고.
         this.id = (String) tuple[0];
         this.totalEmotionCount = ((BigInteger) tuple[1]).intValue();
@@ -25,5 +28,6 @@ public class EmotionStatDto {
         this.thanksCount = ((BigInteger) tuple[4]).intValue();
         this.sadCount = ((BigInteger) tuple[5]).intValue();
         this.angryCount = ((BigInteger) tuple[6]).intValue();
+        this.myEmotionType = myEmotionType;
     }
 }
