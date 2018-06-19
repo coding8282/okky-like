@@ -19,18 +19,18 @@ class EmotionResource {
     EmotionApplicationService applicationService;
     EmotionQueryService queryService;
 
-    @GetMapping(value = "/members/{memberId}/emotion", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/members/{memberId}/emotions", produces = APPLICATION_JSON_VALUE)
     MyEmotionStatDto getMyEmotionStat(@PathVariable String memberId) {
         return queryService.queryMyEmotionStat(memberId);
     }
 
-    @GetMapping(value = "/articles/{articleId}/emotion", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/articles/{articleId}/emotions", produces = APPLICATION_JSON_VALUE)
     EmotionStatDto getEmotionStat(
             @PathVariable String articleId) {
         return queryService.queryEmotionStat(articleId);
     }
 
-    @GetMapping(value = "/articles/{articleId}/members/{memberId}/emotion", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/articles/{articleId}/members/{memberId}/emotions", produces = APPLICATION_JSON_VALUE)
     EmotionFullStatDto getEmotionFullStat(
             @PathVariable String articleId,
             @PathVariable String memberId) {
