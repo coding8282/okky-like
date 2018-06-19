@@ -31,7 +31,7 @@ public class ArticleLikeConstraintTest extends TestMother {
 
     @Test
     public void checkArticleExists_해당_게시글이_있는_경우() {
-        ResponseEntity entity = mock(ResponseEntity.class);
+        ResponseEntity<Boolean> entity = mock(ResponseEntity.class);
         when(entity.getBody()).thenReturn(true);
         when(template.getForEntity(anyString(), eq(Boolean.class))).thenReturn(entity);
 

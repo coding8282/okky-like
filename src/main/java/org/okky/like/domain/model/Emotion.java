@@ -23,7 +23,7 @@ import static org.okky.share.util.JsonUtil.toPrettyJson;
  * @author coding8282
  */
 @NoArgsConstructor(access = PROTECTED)
-@EqualsAndHashCode(of = "id", callSuper = false)
+@EqualsAndHashCode(of = "id")
 @FieldDefaults(level = PRIVATE)
 @Getter
 @Entity
@@ -90,8 +90,7 @@ public class Emotion implements Aggregate {
         String targetId = "a-1";
         String memberId = "m-3";
         EmotionType type = LIKE;
-        Emotion emotion = new Emotion(targetId, memberId, type);
-        return emotion;
+        return new Emotion(targetId, memberId, type);
     }
 
     public static void main(String[] args) {
