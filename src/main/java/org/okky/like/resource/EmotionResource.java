@@ -5,7 +5,6 @@ import lombok.experimental.FieldDefaults;
 import org.okky.like.application.EmotionApplicationService;
 import org.okky.like.application.EmotionQueryService;
 import org.okky.like.resource.dto.EmotionFullStatDto;
-import org.okky.like.resource.dto.EmotionStatDto;
 import org.okky.like.resource.dto.MyEmotionStatDto;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,15 +24,9 @@ class EmotionResource {
     }
 
     @GetMapping(value = "/articles/{articleId}/emotions", produces = APPLICATION_JSON_VALUE)
-    EmotionStatDto getEmotionStat(
-            @PathVariable String articleId) {
-        return queryService.queryEmotionStat(articleId);
-    }
-
-    @GetMapping(value = "/articles/{articleId}/members/{memberId}/emotions", produces = APPLICATION_JSON_VALUE)
-    EmotionFullStatDto getEmotionFullStat(
+    EmotionFullStatDto getEmotionStat(
             @PathVariable String articleId,
-            @PathVariable String memberId) {
+            @RequestParam(required = false) String memberId) {
         return queryService.queryEmotionFullStat(articleId, memberId);
     }
 
@@ -47,7 +40,7 @@ class EmotionResource {
     }
 
     @DeleteMapping(value = "/articles/{articleId}/members/{memberId}/emotions", produces = APPLICATION_JSON_VALUE)
-    EmotionStatDto undoEmotion(
+    EmotionFullStatDto undoEmotion(
             @PathVariable String articleId,
             @PathVariable String memberId) {
         applicationService.undoEmotion(articleId, memberId);
