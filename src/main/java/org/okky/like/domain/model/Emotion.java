@@ -27,11 +27,12 @@ import static org.okky.share.util.JsonUtil.toPrettyJson;
 @FieldDefaults(level = PRIVATE)
 @Getter
 @Entity
-@Table(uniqueConstraints = {
-        @UniqueConstraint(
-                name = "U_TARGET_ID_MEMBER_ID",
-                columnNames = {"TARGET_ID", "MEMBER_ID"})
-})
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "U_TARGET_ID_MEMBER_ID",
+                        columnNames = {"TARGET_ID", "MEMBER_ID"})
+        })
 @NamedNativeQueries({
         @NamedNativeQuery(
                 name = Emotion.GET_EMOTION_STAT,

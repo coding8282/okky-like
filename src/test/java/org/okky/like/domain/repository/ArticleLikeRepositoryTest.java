@@ -7,6 +7,7 @@ import org.okky.like.TestMother;
 import org.okky.like.domain.model.ArticleLike;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -18,6 +19,14 @@ import static org.junit.Assert.*;
 public class ArticleLikeRepositoryTest extends TestMother {
     @Autowired
     ArticleLikeRepository repository;
+
+    @Test
+    public void articleId_likerId_유니크_제약조건_확인() {
+        expect(DataIntegrityViolationException.class);
+
+        repository.saveAndFlush(fixture("a-1", "m-1"));
+        repository.saveAndFlush(fixture("a-1", "m-1"));
+    }
 
     @Test
     public void findByArticleIdAndLikerId_있을_떄() {
