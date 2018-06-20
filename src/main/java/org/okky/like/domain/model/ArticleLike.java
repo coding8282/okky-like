@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.okky.share.domain.Aggregate;
-import org.okky.share.domain.AssertionConcern;
 import org.okky.share.util.JsonUtil;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -14,6 +13,7 @@ import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
 import static lombok.AccessLevel.PROTECTED;
+import static org.okky.share.domain.AssertionConcern.assertArgNotNull;
 
 @NoArgsConstructor(access = PROTECTED)
 @EqualsAndHashCode(of = "id")
@@ -58,17 +58,17 @@ public class ArticleLike implements Aggregate {
     }
 
     private void setId(String id) {
-        AssertionConcern.assertArgNotNull(id, "id는 필수입니다.");
+        assertArgNotNull(id, "id는 필수입니다.");
         this.id = id;
     }
 
     private void setArticleId(String articleId) {
-        AssertionConcern.assertArgNotNull(articleId, "게시글 id는 필수입니다.");
+        assertArgNotNull(articleId, "게시글 id는 필수입니다.");
         this.articleId = articleId;
     }
 
     private void setLikerId(String likerId) {
-        AssertionConcern.assertArgNotNull(likerId, "좋아요한사람 id는 필수입니다.");
+        assertArgNotNull(likerId, "좋아요한사람 id는 필수입니다.");
         this.likerId = likerId;
     }
 }
