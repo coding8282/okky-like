@@ -18,6 +18,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 class LikeResource {
     ArticleLikeService service;
     ArticleLikeRepository repository;
+    ContextHolder holder;
 
     @GetMapping(value = "/members/{memberId}/likes/count")
     long countMyLikes(@PathVariable String memberId) {
@@ -45,7 +46,7 @@ class LikeResource {
     @PutMapping(value = "/articles/{articleId}/likes/toggle")
     long toggleLike(
             @PathVariable String articleId) {
-        service.toggleLike(articleId, ContextHelper.getId());
+        service.toggleLike(articleId, holder.getId());
         return repository.countByArticleId(articleId);
     }
 }
