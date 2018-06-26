@@ -5,6 +5,9 @@ import lombok.Getter;
 
 import java.math.BigInteger;
 
+import static java.math.BigInteger.valueOf;
+import static org.okky.share.util.JsonUtil.toPrettyJson;
+
 @AllArgsConstructor
 @Getter
 public class MyEmotionStatSummaryDto {
@@ -25,5 +28,15 @@ public class MyEmotionStatSummaryDto {
         this.thanksCount = ((BigInteger) tuple[4]).intValue();
         this.sadCount = ((BigInteger) tuple[5]).intValue();
         this.angryCount = ((BigInteger) tuple[6]).intValue();
+    }
+
+    // ---------------------------------------------------
+    public static void main(String[] args) {
+        System.out.println(toPrettyJson(sample()));
+    }
+
+    public static MyEmotionStatSummaryDto sample() {
+        Object[] tuple = {"1", valueOf(150), valueOf(140), valueOf(10), valueOf(0), valueOf(0), valueOf(0)};
+        return new MyEmotionStatSummaryDto(tuple);
     }
 }

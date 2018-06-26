@@ -5,7 +5,9 @@ import lombok.experimental.FieldDefaults;
 
 import java.math.BigInteger;
 
+import static java.math.BigInteger.valueOf;
 import static lombok.AccessLevel.PRIVATE;
+import static org.okky.share.util.JsonUtil.toPrettyJson;
 
 @FieldDefaults(level = PRIVATE)
 @Getter
@@ -29,5 +31,16 @@ public class EmotionStatSummaryDto {
         this.sadCount = ((BigInteger) tuple[5]).intValue();
         this.angryCount = ((BigInteger) tuple[6]).intValue();
         this.myEmotionType = myEmotionType;
+    }
+
+    // ---------------------------------------------------
+    public static void main(String[] args) {
+        System.out.println(toPrettyJson(sample()));
+    }
+
+    public static EmotionStatSummaryDto sample() {
+        Object[] tuple = {"1", valueOf(150), valueOf(140), valueOf(10), valueOf(0), valueOf(0), valueOf(0)};
+        String emotionType = "LIKE";
+        return new EmotionStatSummaryDto(tuple, emotionType);
     }
 }
