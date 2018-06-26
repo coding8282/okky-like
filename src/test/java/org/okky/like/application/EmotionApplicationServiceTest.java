@@ -3,12 +3,11 @@ package org.okky.like.application;
 import lombok.experimental.FieldDefaults;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InOrder;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.okky.like.TestMother;
 import org.okky.like.domain.model.Emotion;
+import org.okky.like.domain.model.EmotionType;
 import org.okky.like.domain.repository.EmotionRepository;
 import org.okky.like.domain.service.EmotionConstraint;
 import org.okky.like.domain.service.EmotionHelper;
@@ -16,6 +15,7 @@ import org.okky.like.domain.service.EmotionHelper;
 import java.util.Optional;
 
 import static lombok.AccessLevel.PRIVATE;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.okky.like.domain.model.EmotionType.FUN;
@@ -34,6 +34,8 @@ public class EmotionApplicationServiceTest extends TestMother {
     EmotionHelper helper;
     @Mock
     Emotion emotion;
+    @Captor
+    ArgumentCaptor<EmotionType> captor;
 
     /**
      * 예를 들어 'LIKE'한 상태에서 'LIKE'로 요청이 들어오면 공감표현을 제거한다.
@@ -48,9 +50,11 @@ public class EmotionApplicationServiceTest extends TestMother {
 
         InOrder o = inOrder(repository, emotion);
         o.verify(repository).findByTargetIdAndMemberId("t", "m");
-        o.verify(emotion).isSameEmotionType(LIKE);
+        o.verify(emotion).isSameEmotionType(captor.capture());
         o.verify(repository).delete(emotion);
         o.verify(emotion, never()).replaceEmotionType(any());
+
+        assertEquals("인자는 LIKE여야 한다.", LIKE, captor.getValue());
     }
 
     /**
@@ -65,9 +69,12 @@ public class EmotionApplicationServiceTest extends TestMother {
 
         InOrder o = inOrder(repository, emotion);
         o.verify(repository).findByTargetIdAndMemberId("t", "m");
-        o.verify(emotion).isSameEmotionType(FUN);
-        o.verify(emotion).replaceEmotionType(FUN);
+        o.verify(emotion).isSameEmotionType(captor.capture());
+        o.verify(emotion).replaceEmotionType(captor.capture());
         o.verify(repository, never()).delete(emotion);
+
+        assertEquals("첫번째 인자는 FUN여야 한다.", FUN, captor.getAllValues().get(0));
+        assertEquals("두번째 인자는 FUN여야 한다.", FUN, captor.getAllValues().get(0));
     }
 
     @Test
@@ -80,8 +87,8 @@ public class EmotionApplicationServiceTest extends TestMother {
         o.verify(constraint).rejectIfArticleNotExists("t");
         o.verify(repository).save(any(Emotion.class));
         o.verify(repository, never()).findByTargetIdAndMemberId(anyString(), anyString());
-        o.verify(emotion, never()).isDifferentEmotionType(FUN);
-        o.verify(emotion, never()).replaceEmotionType(FUN);
+        o.verify(emotion, never()).isDifferentEmotionType(any());
+        o.verify(emotion, never()).replaceEmotionType(any());
     }
 
     @Test
