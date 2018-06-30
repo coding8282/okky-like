@@ -11,6 +11,7 @@ import org.okky.like.domain.model.EmotionType;
 import org.okky.like.domain.repository.EmotionRepository;
 import org.okky.like.domain.service.EmotionConstraint;
 import org.okky.like.domain.service.EmotionHelper;
+import org.okky.like.domain.service.EmotionProxy;
 
 import java.util.Optional;
 
@@ -33,6 +34,10 @@ public class EmotionApplicationServiceTest extends TestMother {
     @Mock
     EmotionHelper helper;
     @Mock
+    EmotionProxy proxy;
+    @Mock
+    ModelMapper mapper;
+    @Mock
     Emotion emotion;
     @Captor
     ArgumentCaptor<EmotionType> captor;
@@ -48,11 +53,15 @@ public class EmotionApplicationServiceTest extends TestMother {
 
         service.doEmotion("t", "m", "LIKE");
 
-        InOrder o = inOrder(repository, emotion);
+        InOrder o = inOrder(repository, emotion, constraint, mapper, proxy);
         o.verify(repository).findByTargetIdAndMemberId("t", "m");
         o.verify(emotion).isSameEmotionType(captor.capture());
         o.verify(repository).delete(emotion);
         o.verify(emotion, never()).replaceEmotionType(any());
+        o.verify(constraint, never()).rejectIfArticleNotExists(anyString());
+        o.verify(repository, never()).save(any());
+        o.verify(mapper, never()).toEvent(any());
+        o.verify(proxy, never()).sendEvent(any());
 
         assertEquals("인자는 LIKE여야 한다.", LIKE, captor.getValue());
     }
@@ -67,11 +76,15 @@ public class EmotionApplicationServiceTest extends TestMother {
 
         service.doEmotion("t", "m", "FUN");
 
-        InOrder o = inOrder(repository, emotion);
+        InOrder o = inOrder(repository, emotion, constraint, mapper, proxy);
         o.verify(repository).findByTargetIdAndMemberId("t", "m");
         o.verify(emotion).isSameEmotionType(captor.capture());
         o.verify(emotion).replaceEmotionType(captor.capture());
         o.verify(repository, never()).delete(emotion);
+        o.verify(constraint, never()).rejectIfArticleNotExists(anyString());
+        o.verify(repository, never()).save(any());
+        o.verify(mapper, never()).toEvent(any());
+        o.verify(proxy, never()).sendEvent(any());
 
         assertEquals("첫번째 인자는 FUN여야 한다.", FUN, captor.getAllValues().get(0));
         assertEquals("두번째 인자는 FUN여야 한다.", FUN, captor.getAllValues().get(0));
@@ -83,12 +96,12 @@ public class EmotionApplicationServiceTest extends TestMother {
 
         service.doEmotion("t", "m", "FUN");
 
-        InOrder o = inOrder(repository, constraint, emotion);
+        InOrder o = inOrder(repository, constraint, mapper, proxy);
         o.verify(constraint).rejectIfArticleNotExists("t");
-        o.verify(repository).save(any(Emotion.class));
+        o.verify(repository).save(isA(Emotion.class));
+        o.verify(mapper).toEvent(isA(Emotion.class));
+        o.verify(proxy).sendEvent(any());
         o.verify(repository, never()).findByTargetIdAndMemberId(anyString(), anyString());
-        o.verify(emotion, never()).isDifferentEmotionType(any());
-        o.verify(emotion, never()).replaceEmotionType(any());
     }
 
     @Test

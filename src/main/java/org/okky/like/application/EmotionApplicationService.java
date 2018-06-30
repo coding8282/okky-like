@@ -7,6 +7,8 @@ import org.okky.like.domain.model.EmotionType;
 import org.okky.like.domain.repository.EmotionRepository;
 import org.okky.like.domain.service.EmotionConstraint;
 import org.okky.like.domain.service.EmotionHelper;
+import org.okky.like.domain.service.EmotionProxy;
+import org.okky.share.event.Emoted;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,8 @@ public class EmotionApplicationService {
     EmotionRepository repository;
     EmotionConstraint constraint;
     EmotionHelper helper;
+    EmotionProxy proxy;
+    ModelMapper mapper;
 
     public void doEmotion(String targetId, String memberId, String emotionType) {
         EmotionType type = EmotionType.parse(emotionType);
@@ -45,5 +49,7 @@ public class EmotionApplicationService {
         constraint.rejectIfArticleNotExists(targetId);
         Emotion emotion = new Emotion(targetId, memberId, type);
         repository.save(emotion);
+        Emoted event = mapper.toEvent(emotion);
+        proxy.sendEvent(event);
     }
 }
