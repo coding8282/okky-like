@@ -22,7 +22,7 @@ public class ModelMapperTest extends TestMother {
 
         assertThat("id가 다르다.", event.getId(), is(emotion.getId()));
         assertThat("targetId가 다르다.", event.getTargetId(), is(emotion.getTargetId()));
-        assertThat("memberId가 다르다.", event.getMemberId(), is(emotion.getMemberId()));
+        assertThat("memberId가 다르다.", event.getEmoterId(), is(emotion.getMemberId()));
         assertThat("emotedOn가 다르다.", event.getEmotedOn(), is(emotion.getEmotedOn()));
         assertThat("type가 다르다.", event.getType(), is(emotion.getType().name()));
     }
